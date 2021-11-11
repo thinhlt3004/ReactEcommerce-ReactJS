@@ -1,0 +1,92 @@
+import {makeStyles} from '@material-ui/core';
+
+export const useStyles = makeStyles((theme) => ({
+    container:{
+        maxWidth: '100vw',
+        height: 'calc(100vh - 70px)',
+        position: 'relative',
+        display: 'flex',
+        alignItems: 'center',
+        overflow: 'hidden',      
+        padding : '0px',
+        margin: '0px',
+    },
+    leftArrow:{
+        position: 'absolute',
+        left: '10px',
+        top: '50%',
+        width: '50px',
+        height: '50px',
+        cursor: 'pointer',
+        opacity: 0.5,
+        zIndex: 999,
+        backgroundColor: '#D5D5D5',
+        borderRadius: '50%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        transition: 'all 1s ease',
+        '&:hover': {
+            transform: 'scale(1.3)',
+        }, 
+    },
+    rightArrow:{
+        position: 'absolute',
+        right: '10px',
+        top: '50%',
+        width: '50px',
+        height: '50px',
+        cursor: 'pointer',
+        opacity: 0.5,
+        zIndex: 2,
+        backgroundColor: '#D5D5D5',
+        borderRadius: '50%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        transition: 'all 1s ease',
+        '&:hover': {
+            transform: 'scale(1.3)',
+        }, 
+    },
+    wrapper:{
+        display: 'flex',
+        alignItems: 'center',
+        transform: props =>  'translateX(' + parseInt(props.slideIndex) +'vw)',
+        transition: 'all 1.5s ease',
+    },
+    sliderContainer:{
+        display: 'flex',
+        alignItems: 'center',
+        minWidth: '100vw',
+        height: '100%',
+        overflowX: 'hidden !important',
+        backgroundColor : props => '#' + props.slider[parseInt(props.index)].bg,
+    },
+    imgContainer:{
+        height: '100%',
+        overflow: 'hidden',
+        flex: 1,
+        width: '100%',
+    },
+    img:{
+        marginTop: '10px',
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+    },
+    titleContainer:{
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        padding: '50px',
+        fontSize: '70px',
+    },
+    desc:{
+        margin: '50px 0px',
+        fontSize: '20px',
+        fontWeight: 500,
+        letterSpacing: '3px',
+
+    }
+}));
