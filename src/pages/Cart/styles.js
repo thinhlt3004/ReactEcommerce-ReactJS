@@ -53,5 +53,24 @@ export const useStyles = makeStyles((theme) => ({
         width: '100%',
         margin: '10px 0px',
         padding: '10px'
+    },
+    buttonDelete:{
+        backgroundColor: 'black !important',
+        color: 'white !important',
+        margin: '10px 0px',
+        padding: '10px',
+    },
+    btnDiv:{
+        display: 'flex',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
+    },
+    empty:{
+        textAlign: 'center',
+        fontWeight: 500,
+        color: 'red',
+        letterSpacing: '3px',
+        marginTop: '30px',
+        fontSize: '25px',
     }
 }));

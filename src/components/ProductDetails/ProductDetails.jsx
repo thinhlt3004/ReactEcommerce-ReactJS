@@ -6,9 +6,15 @@ import { useStyles } from "./styles";
 import { Skeleton } from "@material-ui/lab";
 import { Add, Remove, Star, StarBorder, StarHalf } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { addNewProduct, createNewCart } from "./../../redux/cartSlide";
+import { upadatedCart, addNewCart } from "./../../api/api";
 export default function ProductDetails() {
   const params = useParams();
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { username, users } = useSelector((state) => state.user);
+  const { cart } = useSelector((state) => state.cart);
   const [product, setProduct] = useState(null);
   const [amount, setAmount] = useState(1);
   useEffect(() => {
@@ -22,6 +28,57 @@ export default function ProductDetails() {
 
     fetchProduct();
   }, [params.id]);
+  const handeCart = async () => {
+    if (cart !== null) {
+      let newCart = [];
+      const current = cart.products.find((i) => i.productId === product.id);
+      if (current === null || current === undefined) {
+        const newProduct = {
+          productId: product.id,
+          quantity: amount,
+        };
+
+        newCart = [...cart.products, newProduct];
+        dispatch(addNewProduct(newCart));
+      } else {
+        const updatedProduct = {
+          productId: current.productId,
+          quantity: current.quantity + amount,
+        };
+        newCart = cart.products.map((i) =>
+          i.productId === updatedProduct.productId ? updatedProduct : i
+        );
+        dispatch(addNewProduct(newCart));
+      }
+      const payload = {
+        cartId: cart.id,
+        data: {
+          date: cart.date,
+          products: newCart,
+          userId: cart.userId,
+        },
+      };
+      // console.log(payload);
+      await upadatedCart(payload);
+      // console.log(res.data);
+    } else {
+      const user = users.find((i) => i.username === username);
+      const payload = {
+        userId: user.id,
+        date: new Date(),
+        products: [
+          {
+            productId: product.id,
+            quantity: amount,
+          },
+        ],
+      };
+      const res = await addNewCart(payload);
+      if (res.data) {
+        dispatch(createNewCart(res.data));
+      }
+    }
+  };
   if (product === null)
     return (
       <Box className={classes.container}>
@@ -80,16 +137,26 @@ export default function ProductDetails() {
       <img className={classes.img} src={product.image} alt={product.id} />
       <Box className={classes.content}>
         <Breadcrumbs aria-label="breadcrumb">
-          <Link color="inherit" to="/" style={{textDecoration: 'none', color: '#000000'}}>
+          <Link
+            color="inherit"
+            to="/"
+            style={{ textDecoration: "none", color: "#000000" }}
+          >
             Home
           </Link>
           <Link
             to={`/${params.category}`}
-            style={{textDecoration: 'none', color: '#000000', textTransform: 'capitalize'}}
+            style={{
+              textDecoration: "none",
+              color: "#000000",
+              textTransform: "capitalize",
+            }}
           >
             {params.category}
           </Link>
-          <span style={{textDecoration: 'none', color: '#000000'}}>{product.title.substring(0, 70)}...</span>
+          <span style={{ textDecoration: "none", color: "#000000" }}>
+            {product.title.substring(0, 70)}...
+          </span>
         </Breadcrumbs>
         <Box className={classes.title}>{product.title}</Box>
         <Box className={classes.description}>{product.description}</Box>
@@ -145,9 +212,25 @@ export default function ProductDetails() {
               onClick={() => setAmount(amount !== 1 ? amount - 1 : 1)}
             />
           </Box>
-          <Button variant="outlined" size="large" className={classes.button}>
-            Add To Cart
-          </Button>
+          {username !== null ? (
+            <Button
+              variant="outlined"
+              size="large"
+              className={classes.button}
+              onClick={handeCart}
+            >
+              Add To Cart
+            </Button>
+          ) : (
+            <Button
+              variant="outlined"
+              size="large"
+              className={classes.button}
+              disabled={true}
+            >
+              Add To Cart
+            </Button>
+          )}
         </Box>
       </Box>
     </Box>

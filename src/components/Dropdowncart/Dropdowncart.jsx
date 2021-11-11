@@ -8,8 +8,8 @@ export default function Dropdowncart({click}) {
   const { cart } = useSelector((state) => state.cart);
   return (
     <div className={classes.container}>
-      {cart.length > 0 &&
-        cart.map((i, index) => <CartItem key={index} items={i} />)}
+      {cart?.products?.length > 0 &&
+        cart?.products?.map((i, index) => <CartItem key={index} items={i} />)}
       <Link
         className={classes.cartItemContainer}
         style={{ 

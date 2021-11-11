@@ -170,7 +170,7 @@ export default function Navbar() {
             <span onClick={handleLogOut} className={styles.log}>
               Log Out
             </span>
-           <Badge className={styles.log} badgeContent={cart?.length || 0} color="secondary" onClick={() => setOpenCart(!openCart)}>
+           <Badge className={styles.log} badgeContent={cart?.products?.length || 0} color="secondary" onClick={() => setOpenCart(!openCart)}>
               <ShoppingCartOutlined />
             </Badge> 
            {openCart && <Dropdowncart click={() => setOpenCart(false)}/>}

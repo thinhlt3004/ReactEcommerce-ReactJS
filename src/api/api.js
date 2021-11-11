@@ -17,3 +17,12 @@ export const getAllUsers = () => publicRequest.get('/users');
 
 
 export const getCartByUser = (payload) => publicRequest.get(`/carts/${payload}`);
+
+export const getALlCarts = () => publicRequest.get('/carts');
+
+export const upadatedCart = (payload) => publicRequest.put(`/carts/${payload.cartId}`, payload.data);
+
+
+export const addNewCart = (payload) => publicRequest.post(`/carts`, payload);
+
+export const deleteCart = (payload) => publicRequest.delete(`/carts/${payload}`);
